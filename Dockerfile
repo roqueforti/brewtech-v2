@@ -1,9 +1,10 @@
 FROM php:8.2-apache
 
-# Install fast PHP extension installer (downloads pre-compiled binaries)
-ADD --chmod=0755 https://github.com/mlocati/php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
-
-RUN install-php-extensions pdo pdo_mysql mbstring exif pcntl bcmath gd zip intl opcache curl fileinfo
+# Install PHP extensions via curl (ADD URL blocked by Railway)
+RUN curl -sSLf -o /usr/local/bin/install-php-extensions \
+    https://github.com/mlocati/php-extension-installer/releases/latest/download/install-php-extensions \
+    && chmod +x /usr/local/bin/install-php-extensions \
+    && install-php-extensions pdo pdo_mysql mbstring exif pcntl bcmath gd zip intl opcache curl fileinfo
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
