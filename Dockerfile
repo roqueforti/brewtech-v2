@@ -1,15 +1,13 @@
 FROM php:8.2-apache
 
-# Install system dependencies + all common PHP extension libs
+# Install fast PHP extension installer (downloads pre-compiled binaries)
+ADD --chmod=0755 https://github.com/mlocati/php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
+
+RUN install-php-extensions pdo pdo_mysql mbstring exif pcntl bcmath gd zip intl opcache curl fileinfo
+
+# Install system dependencies
 RUN apt-get update && apt-get install -y \
-    git curl zip unzip \
-    libpng-dev libonig-dev libxml2-dev libzip-dev \
-    libicu-dev libpq-dev libfreetype6-dev libjpeg62-turbo-dev \
-    nodejs npm \
-    && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install \
-        pdo pdo_mysql mbstring exif pcntl bcmath gd \
-        zip intl xml tokenizer fileinfo opcache curl \
+    git curl nodejs npm \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install Composer
