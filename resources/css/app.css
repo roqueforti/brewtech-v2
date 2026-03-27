@@ -1,0 +1,197 @@
+/* --- IMPORT FONT GOOGLE --- */
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Quicksand:wght@300..700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* --- TEMA BREWTECH: CYAN FRESH & PINK POP --- */
+    
+    /* 1. BACKGROUND & DASAR (Nuansa Cyan Sangat Muda) */
+    --background: 193 60% 98%; 
+    --foreground: 200 60% 15%; 
+
+    /* 2. CARD & POPOVER (Putih Bersih) */
+    --card: 0 0% 100%;
+    --card-foreground: 200 60% 15%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 200 60% 15%;
+
+    /* 3. PRIMARY: CYAN #5BCCEA (Warna Utama Brand) */
+    --primary: 193 76% 64%;
+    --primary-foreground: 0 0% 100%; 
+
+    /* 4. SECONDARY: PINK #FF01A2 (AKSEN KUAT) */
+    --secondary: 322 100% 50%;
+    --secondary-foreground: 0 0% 100%; 
+
+    /* 5. ACCENT: Cyan Muda */
+    --accent: 193 50% 90%; 
+    --accent-foreground: 200 60% 15%;
+
+    /* 6. LAIN-LAIN */
+    --muted: 193 30% 94%;
+    --muted-foreground: 200 20% 50%;
+    
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 193 50% 85%;
+    --input: 193 50% 85%;
+    --ring: 322 100% 50%; /* Ring Pink */
+
+    --radius: 1.5rem;
+
+    /* Chart Colors */
+    --chart-1: 322 100% 50%;
+    --chart-2: 193 76% 64%;
+    --chart-3: 200 60% 45%;
+    --chart-4: 45 90% 60%;
+    --chart-5: 160 60% 45%;
+    
+    /* Sidebar */
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 200 60% 15%;
+    --sidebar-primary: 193 76% 64%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 193 50% 90%;
+    --sidebar-accent-foreground: 200 60% 15%;
+    --sidebar-border: 193 50% 85%;
+    --sidebar-ring: 322 100% 50%;
+  }
+
+  .dark {
+    --background: 200 50% 10%;
+    --foreground: 193 40% 95%;
+    --card: 200 40% 12%;
+    --card-foreground: 193 40% 95%;
+    --popover: 200 40% 12%;
+    --popover-foreground: 193 40% 95%;
+    --primary: 193 76% 64%;
+    --primary-foreground: 200 50% 10%;
+    --secondary: 322 100% 50%;
+    --secondary-foreground: 0 0% 100%;
+    --accent: 200 40% 20%;
+    --accent-foreground: 193 40% 95%;
+    --muted: 200 40% 20%;
+    --muted-foreground: 193 30% 65%;
+    --destructive: 0 62% 30%;
+    --destructive-foreground: 193 40% 95%;
+    --border: 200 40% 20%;
+    --input: 200 40% 20%;
+    --ring: 322 100% 50%;
+  }
+
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply bg-background text-foreground;
+    font-size: 16px;
+  }
+
+  /* Penyesuaian Global untuk Layar Besar (TV 40"+) */
+  @media (min-width: 1920px) {
+    html {
+      font-size: 18px;
+    }
+    .container {
+      max-width: 1600px !important;
+    }
+  }
+  
+  /* Untuk Layar 4K TV */
+  @media (min-width: 2560px) {
+    html {
+      font-size: 24px;
+    }
+    .container {
+      max-width: 2200px !important;
+    }
+  }
+}
+
+@layer utilities {
+  /* Pattern Titik-Titik ala Poster */
+  .bg-dots {
+    background-image: radial-gradient(hsl(var(--primary)) 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+  
+  /* Font Khusus Poster */
+  .font-display {
+    font-family: 'Fredoka', sans-serif;
+  }
+  .font-body {
+    font-family: 'Quicksand', sans-serif;
+  }
+
+  /* --- RESPONSIVE UTILITIES UNTUK TV / LARGE SCREENS --- */
+  @media (min-width: 2000px) {
+    .text-tv-base { font-size: 1.5rem; line-height: 2rem; }
+    .text-tv-lg { font-size: 1.875rem; line-height: 2.25rem; }
+    .text-tv-xl { font-size: 2.5rem; line-height: 2.75rem; }
+    .text-tv-4xl { font-size: 4rem; line-height: 1; }
+    .p-tv { padding: 4rem; } 
+  }
+}
+
+/* Custom Scrollbar - Pink Handle (Diperbesar untuk TV) */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 12px; 
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: hsl(var(--secondary) / 0.5);
+  border-radius: 9999px;
+  border: 2px solid transparent; 
+  background-clip: content-box;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: hsl(var(--secondary));
+}
+
+/* Background Dots Pattern */
+.bg-dots {
+  background-image: radial-gradient(circle, hsl(var(--primary) / 0.1) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+/* =====================================================
+   SCROLL REVEAL ANIMATIONS
+   Usage: add class "reveal" (+ variant) to element.
+   JS IntersectionObserver adds "revealed" to trigger.
+===================================================== */
+
+/* Base state — hidden before reveal */
+.reveal {
+  opacity: 0;
+  transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+/* Variants — initial positions */
+.reveal-up     { transform: translateY(40px); }
+.reveal-left   { transform: translateX(-40px); }
+.reveal-right  { transform: translateX(40px); }
+.reveal-zoom   { transform: scale(0.92); }
+
+/* Revealed state — fully visible */
+.reveal.revealed {
+  opacity: 1;
+  transform: none;
+}
+
+/* Stagger delays for grid children */
+.reveal-delay-1 { transition-delay: 0.08s; }
+.reveal-delay-2 { transition-delay: 0.16s; }
+.reveal-delay-3 { transition-delay: 0.24s; }
+.reveal-delay-4 { transition-delay: 0.32s; }
+.reveal-delay-5 { transition-delay: 0.40s; }
+.reveal-delay-6 { transition-delay: 0.48s; }
