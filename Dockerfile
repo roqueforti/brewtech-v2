@@ -1,30 +1,21 @@
-FROM php:8.2-apache
+FROM webdevops/php-apache:8.2
 
-# Step 1: Install curl and other tools first (needed to download extension installer)
-RUN apt-get update && apt-get install -y \
-    curl git unzip nodejs npm \
+# webdevops/php-apache:8.2 already includes:
+# pdo, pdo_mysql, mbstring, gd, zip, intl, opcache, bcmath, exif, etc.
+# No manual extension installation needed!
+
+# Install Node.js and npm
+RUN apt-get update && apt-get install -y nodejs npm \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
-
-# Step 2: Download and use php-extension-installer (now curl is available)
-RUN curl -sSL -o /usr/local/bin/install-php-extensions \
-    https://github.com/mlocati/php-extension-installer/releases/latest/download/install-php-extensions \
-    && chmod +x /usr/local/bin/install-php-extensions \
-    && install-php-extensions pdo pdo_mysql mbstring exif pcntl bcmath gd zip intl opcache fileinfo
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Enable Apache mod_rewrite
-RUN a2enmod rewrite
+# Set document root to Laravel public/
+ENV WEB_DOCUMENT_ROOT=/app/public
+ENV PHP_DISMOD=xdebug
 
-# Set Apache document root to Laravel public/
-ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
-RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' \
-    /etc/apache2/sites-available/*.conf \
-    && sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' \
-    /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
-
-WORKDIR /var/www/html
+WORKDIR /app
 
 # Copy source code
 COPY . .
@@ -36,9 +27,9 @@ RUN COMPOSER_MEMORY_LIMIT=-1 composer install --no-dev --optimize-autoloader --n
 RUN npm ci && npm run build
 
 # Set permissions
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache \
-    && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
+RUN chown -R application:application /app/storage /app/bootstrap/cache \
+    && chmod -R 775 /app/storage /app/bootstrap/cache
 
 EXPOSE 80
 
-CMD ["apache2-foreground"]
+CMD ["/entrypoint", "supervisord"]
