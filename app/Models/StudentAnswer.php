@@ -9,12 +9,9 @@ class StudentAnswer extends Model
 {
     protected $fillable = ['student_id', 'module_question_id', 'selected_option_id', 'is_correct'];
 
-    protected function casts(): array
-    {
-        return [
-            'is_correct' => 'boolean',
-        ];
-    }
+    protected $casts = [
+        'is_correct' => 'boolean',
+    ];
 
     public function student(): BelongsTo
     {

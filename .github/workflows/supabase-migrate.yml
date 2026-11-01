@@ -84,3 +84,4 @@ jobs:
           DB_SSLMODE: ${{ secrets.DB_SSLMODE || 'require' }}
         run: |
           php artisan db:seed --force
+

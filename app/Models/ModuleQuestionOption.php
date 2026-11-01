@@ -9,13 +9,9 @@ class ModuleQuestionOption extends Model
 {
     protected $fillable = ['module_question_id', 'option_text', 'is_correct'];
 
-    // Cast is_correct menjadi boolean
-    protected function casts(): array
-    {
-        return [
-            'is_correct' => 'boolean',
-        ];
-    }
+    protected $casts = [
+        'is_correct' => 'boolean',
+    ];
 
     public function question(): BelongsTo
     {

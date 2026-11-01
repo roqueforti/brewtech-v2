@@ -12,6 +12,10 @@ class Product extends Model
 
     protected $fillable = ['cafe_id', 'name', 'price', 'cost_price', 'image_url', 'status', 'stock'];
 
+    protected $casts = [
+        'status' => 'boolean',
+    ];
+
     public function cafe(): BelongsTo
     {
         return $this->belongsTo(Cafe::class);
