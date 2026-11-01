@@ -15,6 +15,8 @@ class AmongRasaCafeSeeder extends Seeder
         $cafe = Cafe::updateOrCreate(
             ['name' => 'Among Rasa'],
             [
+                'email' => 'halo@amongrasa.com',
+                'status' => 'active',
                 'address' => 'Malang, Jawa Timur (Hilirisasi Vokasi)',
                 'phone' => '08123456789',
             ]

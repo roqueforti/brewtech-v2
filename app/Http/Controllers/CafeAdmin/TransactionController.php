@@ -73,11 +73,38 @@ public function destroyAll()
     }
 
     /**
-     * Export data ke Excel/CSV (Placeholder)
+     * Export data ke file CSV Buku Kas
      */
     public function export()
     {
-        return back()->with('message', 'Fitur export sedang disiapkan!');
+        $transactions = Transaction::where('cafe_id', auth()->user()->cafe_id)
+            ->orderBy('tanggal', 'asc')
+            ->get();
+
+        $filename = 'transaksi-buku-kas-' . date('Y-m-d') . '.csv';
+        $headers = [
+            'Content-Type' => 'text/csv; charset=UTF-8',
+            'Content-Disposition' => 'attachment; filename="' . $filename . '"',
+        ];
+
+        $callback = function() use ($transactions) {
+            $handle = fopen('php://output', 'w');
+            // UTF-8 BOM for Excel compatibility
+            fprintf($handle, chr(0xEF).chr(0xBB).chr(0xBF));
+            fputcsv($handle, ['Tanggal', 'Keterangan', 'Tipe', 'Nominal', 'HPP (COGS)']);
+            foreach ($transactions as $t) {
+                fputcsv($handle, [
+                    $t->tanggal,
+                    $t->keterangan,
+                    $t->tipe,
+                    $t->nominal,
+                    $t->cogs ?? 0,
+                ]);
+            }
+            fclose($handle);
+        };
+
+        return response()->stream($callback, 200, $headers);
     }
 
     /**

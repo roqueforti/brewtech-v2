@@ -16,7 +16,8 @@ class Transaction extends Model
         'tanggal',
         'keterangan',
         'tipe',
-        'nominal'
+        'nominal',
+        'cogs'
     ];
 
     // Relasi opsional

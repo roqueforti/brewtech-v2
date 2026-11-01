@@ -37,7 +37,7 @@ class SpkResultsExport implements FromCollection, WithHeadings, WithMapping
     {
         return [
             $row->student->name,
-            $row->student->class?->name ?? '—',
+            $row->student->class?->name ?? '-',
             $row->student->disability_type ?? 'Umum',
             $row->hard_skill_score,
             $row->soft_skill_score,

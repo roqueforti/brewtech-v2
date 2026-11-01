@@ -42,8 +42,37 @@ class ProductController extends Controller
         return redirect()->back()->with('message', 'Produk berhasil ditambahkan!');
     }
 
+    public function update(Request $request, Product $product)
+    {
+        if ($product->cafe_id !== (Auth::user()->cafe_id ?? 1)) {
+            abort(403);
+        }
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'price' => 'required|numeric|min:0',
+            'cost_price' => 'nullable|numeric|min:0',
+            'stock' => 'required|integer|min:0',
+            'status' => 'required|boolean'
+        ]);
+
+        $product->update([
+            'name' => $request->name,
+            'price' => $request->price,
+            'cost_price' => $request->cost_price ?? 0,
+            'stock' => $request->stock,
+            'status' => $request->status,
+        ]);
+
+        return redirect()->back()->with('message', 'Produk berhasil diperbarui!');
+    }
+
     public function destroy(Product $product)
     {
+        if ($product->cafe_id !== (Auth::user()->cafe_id ?? 1)) {
+            abort(403);
+        }
+
         $product->delete();
         return redirect()->back()->with('message', 'Produk dihapus!');
     }

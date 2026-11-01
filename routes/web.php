@@ -220,6 +220,7 @@ Route::middleware(['auth', 'role:superadmin'])->prefix('superadmin')->name('supe
 
         // SPK & Rapor
         Route::get('/reports', [\App\Http\Controllers\SchoolAdmin\ReportController::class, 'index'])->name('reports.index');
+        Route::get('/reports/export', [\App\Http\Controllers\SchoolAdmin\ReportController::class, 'export'])->name('reports.export');
         Route::get('/spk-settings', [\App\Http\Controllers\SchoolAdmin\SpkController::class, 'edit'])->name('spk.settings');
         Route::put('/spk-settings', [\App\Http\Controllers\SchoolAdmin\SpkController::class, 'update'])->name('spk.update');
     });

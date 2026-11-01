@@ -10,7 +10,7 @@ class Cafe extends Model
 {
     use LogsActivity;
 
-    protected $fillable = ['name', 'address', 'phone', 'logo_url'];
+    protected $fillable = ['name', 'email', 'status', 'address', 'phone', 'logo_url'];
 
     public function users(): HasMany
     {

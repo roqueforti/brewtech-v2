@@ -83,12 +83,12 @@ class ReportController extends Controller
 
         $module = \App\Models\Module::findOrFail($moduleId);
         
-        $progress = \App\Models\StudentModuleProgress::where('user_id', $studentId)
+        $progress = \App\Models\StudentModuleProgress::where('student_id', $studentId)
             ->where('module_id', $moduleId)
             ->where('status', 'completed')
             ->firstOrFail();
 
-        $softSkills = \App\Models\SoftSkillEvaluation::where('user_id', $studentId)
+        $softSkills = \App\Models\StudentSoftSkillEvaluation::where('student_id', $studentId)
             ->where('module_id', $moduleId)
             ->get();
             

@@ -26,9 +26,9 @@ class CurriculumController extends Controller
         ]);
 
         // Assuming there's a pivot table for class_module
-        $class = StudyClass::find($request->class_id);
-        $class->modules()->attach($request->module_id);
+        $class = StudyClass::findOrFail($request->class_id);
+        $class->modules()->syncWithoutDetaching([$request->module_id]);
 
-        return redirect()->back();
+        return redirect()->back()->with('message', 'Modul berhasil diadopsi ke kurikulum kelas!');
     }
 }

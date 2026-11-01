@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Superadmin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Module;
-use App\Models\ModuleCriteria;
+use App\Models\ModuleSoftSkillCriteria;
 
 class CriteriaController extends Controller
 {
@@ -16,11 +16,10 @@ class CriteriaController extends Controller
     {
         $validated = $request->validate([
             'criteria_name' => 'required|string|max:255',
-            'weight' => 'required|integer|min:1|max:100',
         ]);
 
-        $module->criteria()->create($validated);
+        $module->softSkillCriteria()->create($validated);
 
-        return back()->with('success', 'Kriteria penilaian berhasil ditambahkan.');
+        return back()->with('message', 'Kriteria penilaian berhasil ditambahkan.');
     }
 }
