@@ -11,6 +11,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+        // Custom Postgres connection to handle boolean formatting with Supabase / PgBouncer pooler
+        \Illuminate\Database\Connection::resolverFor(
+            'pgsql',
+            static function ($connection, $database, $prefix, $config) {
+                return new \App\Database\PostgresConnection($connection, $database, $prefix, $config);
+            }
+        );
+
         if (isset($_ENV['VERCEL']) || isset($_SERVER['VERCEL']) || getenv('VERCEL')) {
             $this->app->useStoragePath('/tmp/storage');
             foreach ([
