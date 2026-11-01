@@ -1,0 +1,14 @@
+/vendor
+/node_modules
+.env
+.env.*
+.git
+.github
+tests
+android
+Dockerfile
+docker-compose.yml
+switch.bat
+switch.sh
+build_error.log
+build_log.txt

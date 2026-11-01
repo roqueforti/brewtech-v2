@@ -269,5 +269,36 @@ Route::middleware(['auth', 'role:superadmin'])->prefix('superadmin')->name('supe
 
 });
 
+// ==========================================
+// DEPLOYMENT / MIGRATION HELPER (FOR VERCEL / SERVERLESS)
+// ==========================================
+Route::get('/artisan/migrate', function (\Illuminate\Http\Request $request) {
+    $secret = config('app.key');
+    $token = $request->query('token');
+
+    $validKey = env('MIGRATE_SECRET_KEY', substr(md5((string)$secret), 0, 16));
+    if (!$token || $token !== $validKey) {
+        return response()->json([
+            'status' => 'error',
+            'message' => 'Unauthorized. Provide valid ?token= parameter.',
+        ], 403);
+    }
+
+    try {
+        $output = '';
+        \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
+        $output .= \Illuminate\Support\Facades\Artisan::output();
+
+        if ($request->boolean('seed')) {
+            \Illuminate\Support\Facades\Artisan::call('db:seed', ['--force' => true]);
+            $output .= "\n" . \Illuminate\Support\Facades\Artisan::output();
+        }
+
+        return response('<pre>' . htmlspecialchars($output) . '</pre>');
+    } catch (\Throwable $e) {
+        return response('<pre>Error during migration: ' . htmlspecialchars($e->getMessage()) . '</pre>', 500);
+    }
+});
+
 // Autentikasi Bawaan
 require __DIR__.'/auth.php';

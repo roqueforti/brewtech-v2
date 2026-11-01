@@ -7,7 +7,7 @@ const config: CapacitorConfig = {
 
     // ── Karena app ini Laravel/Inertia, kita load langsung dari server ──
     server: {
-        url: 'https://brewtech.site',
+        url: process.env.CAPACITOR_SERVER_URL || 'https://brewtech-v2.vercel.app',
         cleartext: false,       // HTTPS only
         androidScheme: 'https',
     },
