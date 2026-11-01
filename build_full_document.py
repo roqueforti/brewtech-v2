@@ -252,7 +252,7 @@ add_body("BREWTECH adalah platform perangkat lunak berbasis layanan (Software-as
 
 add_header("1.1 Empat Pilar Utama Ekosistem Brewtech", level=2)
 add_bullet("1. LMS Vokasi Berbasis Gamifikasi: ", "Kurikulum pelatihan barista berstandar industri dengan materi visual, video, dan kuis interaktif yang ramah aksesibilitas neurodivergen.")
-add_bullet("2. Sistem Pendukung Keputusan (SPK) Kesiapan Kerja: ", "Algoritma evaluasi transparan yang memadukan capaian hard skill (skor materi/kuis) dan soft skill (etika, komunikasi, disiplin, kerapian) untuk menentukan kelayakan magang/PKL siswa ke industri.")
+add_bullet("2. Sistem Pendukung Keputusan (SPK) MCDM Mutakhir: ", "Engine Multi-Criteria Decision Making komprehensif yang mengimplementasikan 3 algoritma ilmiah formal (Simple Additive Weighting / SAW, Weighted Product / WP, dan TOPSIS) berbasis 6 kriteria kejuruan (C1 Teknis Barista, C2 Kedisiplinan, C3 Higienitas Bar, C4 Kerja Sama Tim, C5 Komunikasi Tamu, C6 Inisiatif) dengan transparansi matriks kalkulasi penuh.")
 add_bullet("3. Hilirisasi Industri & Kasir POS Kafe: ", "Modul kasir Point-of-Sale (POS) terintegrasi pada Kafe Mitra (seperti Kafe Among Rasa di Malang serta mitra kafe di 10 regional kota besar) yang menjadi wadah kerja nyata siswa.")
 add_bullet("4. Portal Wali Murid Transparan: ", "Transparansi penuh bagi orang tua/wali untuk memantau kehadiran, progres materi, catatan harian instruktur, dan perkembangan psikososial anak.")
 
@@ -396,11 +396,11 @@ add_screenshot("12_school_users.png", "Menu Manajemen Siswa, Orang Tua, dan Guru
 add_bullet("Manajemen Kelas Vokasi (/school/classes): ", "Pembuatan rombongan belajar (rombel) pelatihan barista (misal: 'The Cup We Share') dan alokasi kurikulum modul yang aktif dipelajari.")
 add_screenshot("13_school_classes.png", "Menu Manajemen Rombongan Belajar Kelas Vokasi")
 
-add_bullet("Rapor & Rekomendasi Penyaluran (/school/reports): ", "Laporan komparasi capaian siswa dan cetak rapor hasil pelatihan untuk bahan pertimbangan penempatan magang ke kafe mitra.")
-add_screenshot("14_school_reports.png", "Menu Rekapitulasi Rapor & Rekomendasi Penempatan Siswa")
+add_bullet("Rapor & Rekomendasi Penyaluran (/school/reports): ", "Laporan komparasi capaian siswa berbasis Multi-Criteria Decision Making (MCDM) canggih dengan switch multi-algoritma (SAW, WP, TOPSIS), visualisasi matriks ilmiah (Matriks X, Normalisasi R, Matriks Terbobot Y, Solusi Ideal A+/A-), serta ekspor rekapitulasi data ke format Excel dan PDF.")
+add_screenshot("14_school_reports.png", "Menu Rekapitulasi Rapor & Rekomendasi Penempatan Siswa Berbasis MCDM")
 
-add_bullet("Pengaturan Bobot SPK (/school/spk-settings): ", "Penentuan proporsi persentase antara penguasaan teknis hard skill (default 40%) dan karakter soft skill (default 60%) sesuai standar kebutuhan industri.")
-add_screenshot("15_school_spk.png", "Pengaturan Bobot Kriteria Sistem Pendukung Keputusan (SPK)")
+add_bullet("Engine Algoritma & Pengaturan Bobot SPK (/school/spk-settings): ", "Konfigurasi engine ilmiah SPK: pemilihan model matematis utama (SAW, WP, atau TOPSIS), penyesuaian bobot 6 kriteria kejuruan barista (C1 Teknis Seduh, C2 Kedisiplinan, C3 Higienitas Bar, C4 Kerja Sama Tim, C5 Komunikasi, C6 Inisiatif), serta pengaturan rasio makro teknis vs sosial.")
+add_screenshot("15_school_spk.png", "Engine Algoritma & Pengaturan Bobot Kriteria SPK Vokasi Inklusif")
 
 # 3.5 Cafe Admin & POS Portal
 add_header("3.5 Portal Admin Kafe & Kasir POS (Among Rasa)", level=2)
