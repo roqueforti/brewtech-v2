@@ -10,7 +10,12 @@ on:
         description: 'Jalankan seeder database juga?'
         required: false
         type: boolean
-        default: false
+        default: true
+      class:
+        description: 'Nama seeder spesifik (opsional, contoh: ModuleSeeder)'
+        required: false
+        type: string
+        default: 'ModuleSeeder'
 
 concurrency:
   group: supabase-migration
@@ -83,5 +88,9 @@ jobs:
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
           DB_SSLMODE: ${{ secrets.DB_SSLMODE || 'require' }}
         run: |
-          php artisan db:seed --force
+          if [ -n "${{ inputs.class }}" ]; then
+            php artisan db:seed --class="${{ inputs.class }}" --force
+          else
+            php artisan db:seed --force
+          fi
 
