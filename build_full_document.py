@@ -265,6 +265,13 @@ add_bullet("Database Engine: ", "PostgreSQL 15 di Supabase (AWS eu-west-2) yang 
 add_bullet("Otomasi CI/CD: ", "GitHub Actions Workflow (.github/workflows/supabase-migrate.yml) yang mengotomasi seluruh migrasi skema tabel (28 tabel) dan pengisian data uji (seeder) secara remote dan terkontrol.")
 add_bullet("Keamanan & Autentikasi: ", "Password dienkripsi menggunakan Bcrypt (cost 12), Role-Based Access Control (RBAC) 6 level, proteksi Session Cookie, dan penanganan auto-redirect cerdas.")
 
+add_header("1.3 Inovasi Standar Terbaik (Best-Case) Platform Vokasi Inklusif", level=2)
+add_body("Untuk mencapai standar terbaik (gold standard) sebuah platform teknologi asistif pendidikan vokasi disabilitas, BREWTECH mengimplementasikan empat pilar keunggulan unik:")
+add_bullet("1. Bilah Aksesibilitas Inklusif (A11y Suite): ", "Tersedia tombol aksesibilitas mengambang (floating ♿) yang dapat diakses dari halaman publik maupun portal pengguna. Menyediakan pengaturan ukuran teks instan (Normal, A+, A++), Mode Kontras Tinggi untuk siswa low-vision, Spasi Ramah Disleksia (perenggangan huruf & kata), dan asisten suara Text-to-Speech (TTS) Bahasa Indonesia.")
+add_bullet("2. Bursa Talenta Terintegrasi Rekomendasi Akomodasi: ", "Mitra kafe tidak hanya melihat nilai SPK, namun memperoleh panduan akomodasi kerja spesifik sesuai ragam disabilitas (Autisme, Netra, Rungu, Intelektual, Fisik), serta tombol hubungi guru pembimbing sekolah secara langsung via WhatsApp.")
+add_bullet("3. Kasir POS Berbasis Siswa Magang: ", "Pada sistem POS kasir kafe, staf kasir dapat memilih siswa barista magang yang bertugas meracik minuman, sehingga setiap transaksi terhubung langsung dengan portofolio dan jam terbang nyata siswa.")
+add_bullet("4. Rapor & Sertifikasi Kompetensi Terverifikasi: ", "Setiap pencapaian modul menghasilkan sertifikat kompetensi digital yang siap diunduh orang tua dalam format landscape profesional lengkap dengan skor uji teori (Pre/Post Test) dan evaluasi observasi praktik instruktur.")
+
 add_callout("Seluruh infrastruktur telah berhasil di-deploy dan berjalan aktif tanpa kendala di Vercel Production dengan domain https://brewtech-v2.vercel.app dan terhubung langsung ke basis data Supabase PostgreSQL.", "STATUS OPERASIONAL SISTEM")
 
 doc.add_page_break()
