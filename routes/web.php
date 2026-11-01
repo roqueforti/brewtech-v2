@@ -9,126 +9,149 @@ use App\Http\Controllers\ProfileController;
 // HALAMAN DEPAN & AUTENTIKASI UMUM
 // ==========================================
 Route::get('/', function () {
-    // Stats
-    $stats = [
-        'total_siswa' => \App\Models\User::where('role', 'student')->count(),
-        'jumlah_modul' => \App\Models\Module::count(),
-        'jumlah_sekolah' => \App\Models\School::count(),
-        'jumlah_kafe' => \App\Models\Cafe::count(),
-    ];
-
-    // Top Talents (berdasarkan modul yang diselesaikan terbanyak)
-    $topTalents = \App\Models\User::where('role', 'student')
-        ->whereHas('moduleProgresses', function($q) {
-            $q->where('status', 'completed');
-        })
-        ->with(['school', 'moduleProgresses' => function($q) {
-            $q->where('status', 'completed');
-        }])
-        ->get()
-        ->sortByDesc(function($user) {
-            return $user->moduleProgresses->count();
-        })
-        ->take(4)
-        ->map(function($user) {
-            $completedCount = $user->moduleProgresses->count();
-            // Estimate a score based on real progress
-            $skor = min(100, $completedCount * 20); 
-            $predikat = $completedCount >= 5 ? 'Coffee Master' : ($completedCount >= 3 ? 'Barista Expert' : 'Barista Junior');
-
-            return [
-                'name' => $user->name,
-                'sekolah' => $user->school->name ?? 'Sekolah Umum',
-                'disabilitas' => $user->disability_type ?? 'Tidak spesifik',
-                'skor' => $skor,
-                'predikat' => $predikat,
-            ];
-        })->values();
-
-    // Evidences (Dynamic from DB if available, fallback to empty array if no real evidence framework is built yet)
-    $evidences = [];
-
-    // Kelas From DB
-    $kelasFromDB = \App\Models\StudyClass::with('students')->get()->map(function($class) {
-        return [
-            'id' => $class->id,
-            'nama' => $class->name,
-            'emoji' => $class->emoji_icon,
-            'school_id' => $class->school_id,
-            'students' => $class->students->map(fn($s) => ['id' => $s->id, 'name' => $s->name]),
+    try {
+        // Stats
+        $stats = [
+            'total_siswa' => \App\Models\User::where('role', 'student')->count(),
+            'jumlah_modul' => \App\Models\Module::count(),
+            'jumlah_sekolah' => \App\Models\School::count(),
+            'jumlah_kafe' => \App\Models\Cafe::count(),
         ];
-    });
 
-    // Schools
-    $schools = \App\Models\School::all()->map(function($school) {
-        return [
-            'id'      => $school->id,
-            'name'    => $school->name,
-            'address' => $school->address,
-        ];
-    });
+        // Top Talents (berdasarkan modul yang diselesaikan terbanyak)
+        $topTalents = \App\Models\User::where('role', 'student')
+            ->whereHas('moduleProgresses', function($q) {
+                $q->where('status', 'completed');
+            })
+            ->with(['school', 'moduleProgresses' => function($q) {
+                $q->where('status', 'completed');
+            }])
+            ->get()
+            ->sortByDesc(function($user) {
+                return $user->moduleProgresses->count();
+            })
+            ->take(4)
+            ->map(function($user) {
+                $completedCount = $user->moduleProgresses->count();
+                // Estimate a score based on real progress
+                $skor = min(100, $completedCount * 20); 
+                $predikat = $completedCount >= 5 ? 'Coffee Master' : ($completedCount >= 3 ? 'Barista Expert' : 'Barista Junior');
 
-    // Cafes
-    $cafes = \App\Models\Cafe::all()->map(function($cafe) {
-        return [
-            'id'   => $cafe->id,
-            'name' => $cafe->name,
-            'city' => $cafe->city ?? $cafe->address ?? '-',
-        ];
-    });
-
-    // Landing Page Assets (CMS)
-    $landingAssets = \App\Models\LandingPageAsset::where('is_active', true)
-        ->orderBy('order')
-        ->get()
-        ->map(function($asset) {
-            $asset->full_image_url = $asset->image_path ? asset(ltrim($asset->image_path, '/')) : null;
-            return $asset;
-        })
-        ->groupBy('type');
-
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-        'stats' => $stats,
-        'topTalents' => $topTalents,
-        'evidences' => $evidences,
-        'landingAssets' => $landingAssets,
-        'kelasFromDB' => $kelasFromDB,
-        'schools' => $schools,
-        'cafes'   => $cafes,
-        'performanceData' => [
-            // Pertumbuhan siswa 6 bulan terakhir
-            'monthlyGrowth' => collect(range(5, 0))->map(function($i) {
-                $date = \Carbon\Carbon::now()->subMonths($i);
                 return [
-                    'bulan' => $date->translatedFormat('M'),
-                    'siswa' => \App\Models\User::where('role', 'student')
-                        ->whereMonth('created_at', $date->month)
-                        ->whereYear('created_at', $date->year)->count(),
-                    'sekolah' => \App\Models\School::whereMonth('created_at', $date->month)
-                        ->whereYear('created_at', $date->year)->count(),
+                    'name' => $user->name,
+                    'sekolah' => $user->school->name ?? 'Sekolah Umum',
+                    'disabilitas' => $user->disability_type ?? 'Tidak spesifik',
+                    'skor' => $skor,
+                    'predikat' => $predikat,
                 ];
-            })->values(),
-            // Tingkat penyelesaian modul
-            'completionRate' => (function() {
-                $total = \App\Models\StudentModuleProgress::count();
-                $done  = \App\Models\StudentModuleProgress::where('status', 'completed')->count();
-                return $total > 0 ? round(($done / $total) * 100) : 0;
-            })(),
-            // Distribusi jenis disabilitas
-            'disabilityBreakdown' => \App\Models\User::where('role', 'student')
-                ->whereNotNull('disability_type')
-                ->selectRaw('disability_type, count(*) as total')
-                ->groupBy('disability_type')
-                ->get()
-                ->map(fn($r) => ['label' => $r->disability_type, 'value' => $r->total])
-                ->values(),
-            // Jangkauan provinsi (estimasi dari sekolah)
-            'totalProvinsi' => \App\Models\School::selectRaw('DISTINCT province')->count(),
-        ],
-    ]);
+            })->values();
+
+        // Evidences (Dynamic from DB if available, fallback to empty array if no real evidence framework is built yet)
+        $evidences = [];
+
+        // Kelas From DB
+        $kelasFromDB = \App\Models\StudyClass::with('students')->get()->map(function($class) {
+            return [
+                'id' => $class->id,
+                'nama' => $class->name,
+                'emoji' => $class->emoji_icon,
+                'school_id' => $class->school_id,
+                'students' => $class->students->map(fn($s) => ['id' => $s->id, 'name' => $s->name]),
+            ];
+        });
+
+        // Schools
+        $schools = \App\Models\School::all()->map(function($school) {
+            return [
+                'id'      => $school->id,
+                'name'    => $school->name,
+                'address' => $school->address,
+            ];
+        });
+
+        // Cafes
+        $cafes = \App\Models\Cafe::all()->map(function($cafe) {
+            return [
+                'id'   => $cafe->id,
+                'name' => $cafe->name,
+                'city' => $cafe->city ?? $cafe->address ?? '-',
+            ];
+        });
+
+        // Landing Page Assets (CMS)
+        $landingAssets = \App\Models\LandingPageAsset::where('is_active', true)
+            ->orderBy('order')
+            ->get()
+            ->map(function($asset) {
+                $asset->full_image_url = $asset->image_path ? asset(ltrim($asset->image_path, '/')) : null;
+                return $asset;
+            })
+            ->groupBy('type');
+
+        return Inertia::render('Welcome', [
+            'canLogin' => Route::has('login'),
+            'laravelVersion' => Application::VERSION,
+            'phpVersion' => PHP_VERSION,
+            'stats' => $stats,
+            'topTalents' => $topTalents,
+            'evidences' => $evidences,
+            'landingAssets' => $landingAssets,
+            'kelasFromDB' => $kelasFromDB,
+            'schools' => $schools,
+            'cafes'   => $cafes,
+            'performanceData' => [
+                // Pertumbuhan siswa 6 bulan terakhir
+                'monthlyGrowth' => collect(range(5, 0))->map(function($i) {
+                    $date = \Carbon\Carbon::now()->subMonths($i);
+                    return [
+                        'bulan' => $date->translatedFormat('M'),
+                        'siswa' => \App\Models\User::where('role', 'student')
+                            ->whereMonth('created_at', $date->month)
+                            ->whereYear('created_at', $date->year)->count(),
+                        'sekolah' => \App\Models\School::whereMonth('created_at', $date->month)
+                            ->whereYear('created_at', $date->year)->count(),
+                    ];
+                })->values(),
+                // Tingkat penyelesaian modul
+                'completionRate' => (function() {
+                    $total = \App\Models\StudentModuleProgress::count();
+                    $done  = \App\Models\StudentModuleProgress::where('status', 'completed')->count();
+                    return $total > 0 ? round(($done / $total) * 100) : 0;
+                })(),
+                // Distribusi jenis disabilitas
+                'disabilityBreakdown' => \App\Models\User::where('role', 'student')
+                    ->whereNotNull('disability_type')
+                    ->selectRaw('disability_type, count(*) as total')
+                    ->groupBy('disability_type')
+                    ->get()
+                    ->map(fn($r) => ['label' => $r->disability_type, 'value' => $r->total])
+                    ->values(),
+                // Jangkauan provinsi (estimasi dari sekolah)
+                'totalProvinsi' => \App\Models\School::selectRaw('DISTINCT province')->count(),
+            ],
+        ]);
+    } catch (\Throwable $e) {
+        report($e);
+        return Inertia::render('Welcome', [
+            'canLogin' => Route::has('login'),
+            'laravelVersion' => Application::VERSION,
+            'phpVersion' => PHP_VERSION,
+            'stats' => ['total_siswa' => 0, 'jumlah_modul' => 0, 'jumlah_sekolah' => 0, 'jumlah_kafe' => 0],
+            'topTalents' => [],
+            'evidences' => [],
+            'landingAssets' => [],
+            'kelasFromDB' => [],
+            'schools' => [],
+            'cafes'   => [],
+            'performanceData' => [
+                'monthlyGrowth' => [],
+                'completionRate' => 0,
+                'disabilityBreakdown' => [],
+                'totalProvinsi' => 0,
+            ],
+            'dbError' => $e->getMessage(),
+        ]);
+    }
 });
 
 // Login Spesifik Siswa (Tanpa Password, via Modal)
@@ -296,7 +319,7 @@ Route::get('/artisan/migrate', function (\Illuminate\Http\Request $request) {
 
         return response('<pre>' . htmlspecialchars($output) . '</pre>');
     } catch (\Throwable $e) {
-        return response('<pre>Error during migration: ' . htmlspecialchars($e->getMessage()) . '</pre>', 500);
+        return response('<pre>Error during migration: ' . htmlspecialchars($e->getMessage()) . "\n\n" . htmlspecialchars($e->getTraceAsString()) . '</pre>', 500);
     }
 });
 
