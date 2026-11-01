@@ -3,8 +3,9 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, router } from '@inertiajs/react';
 import { ShoppingCart, Plus, Minus, Trash, CheckCircle } from 'lucide-react';
 
-export default function Pos({ auth, products }: any) {
+export default function Pos({ auth, products, baristas = [] }: any) {
     const [cart, setCart] = useState<any[]>([]);
+    const [selectedBarista, setSelectedBarista] = useState<string>('');
 
     const addToCart = (product: any) => {
         setCart(prev => {
@@ -41,6 +42,7 @@ export default function Pos({ auth, products }: any) {
         router.post(route('cafe.pos.checkout'), {
             items: cart.map(c => ({ product_id: c.product_id, quantity: c.quantity })),
             total_amount: totalAmount,
+            barista_name: selectedBarista || undefined,
             customer_name: 'Guest'
         }, {
             onSuccess: () => setCart([])
@@ -126,8 +128,27 @@ export default function Pos({ auth, products }: any) {
                         )}
                     </div>
 
-                    <div className="border-t border-white/5 pt-8 mt-auto relative z-10">
-                        <div className="flex justify-between items-end mb-8">
+                    <div className="border-t border-white/5 pt-6 mt-auto relative z-10 space-y-4">
+                        {/* Barista Magang Selector */}
+                        <div>
+                            <label className="text-[10px] font-bold uppercase tracking-[0.15em] text-slate-400 block mb-2 flex items-center gap-1.5">
+                                ☕ Barista yang Bertugas (Siswa Magang):
+                            </label>
+                            <select
+                                value={selectedBarista}
+                                onChange={(e) => setSelectedBarista(e.target.value)}
+                                className="w-full bg-slate-800 border border-white/10 rounded-xl px-3 py-2.5 text-xs font-semibold text-white focus:outline-none focus:border-primary transition-colors"
+                            >
+                                <option value="">-- Pilih Barista Siswa --</option>
+                                {baristas.map((b: any) => (
+                                    <option key={b.id} value={b.name}>
+                                        {b.name} ({b.school?.name || 'SLB Mitra'})
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+
+                        <div className="flex justify-between items-end pt-2">
                             <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">Total Tagihan</span>
                             <span className="text-3xl font-bold text-emerald-400 tracking-tighter">Rp{totalAmount.toLocaleString('id-ID')}</span>
                         </div>

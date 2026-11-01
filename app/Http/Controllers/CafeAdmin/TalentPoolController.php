@@ -30,8 +30,11 @@ class TalentPoolController extends Controller
                     'id' => $student->id,
                     'name' => $student->name,
                     'school' => $student->school->name ?? 'Sekolah Umum',
-                    'disability_type' => $student->disability_type,
+                    'school_phone' => $student->school->phone ?? '08123456789',
+                    'disability_type' => $student->disability_type ?? 'Umum',
                     'modules_completed' => $student->moduleProgresses->where('status', 'completed')->count(),
+                    'hard_skill_score' => round($hardSkillScore, 1),
+                    'soft_skill_score' => round($softSkillScore, 1),
                     'spk_score' => $spk_score,
                     'ready_for_pkl' => $student->ready_for_pkl ?? ($spk_score >= 80),
                     'recommendation' => $spk_score >= 80 ? 'Siap Praktek Kerja (magang)' : ($spk_score >= 65 ? 'Perlu Pendampingan' : 'Perlu Pelatihan Lanjutan')

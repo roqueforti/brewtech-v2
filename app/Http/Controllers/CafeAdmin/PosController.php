@@ -17,9 +17,14 @@ class PosController extends Controller
     {
         $cafeId = Auth::user()->cafe_id ?? 1;
         $products = Product::where('cafe_id', $cafeId)->where('status', true)->get();
+        $baristas = \App\Models\User::where('role', 'student')
+            ->where('ready_for_pkl', true)
+            ->with('school:id,name')
+            ->get(['id', 'name', 'school_id', 'disability_type']);
 
         return Inertia::render('CafeAdmin/Pos', [
-            'products' => $products
+            'products' => $products,
+            'baristas' => $baristas,
         ]);
     }
 
@@ -29,7 +34,8 @@ class PosController extends Controller
             'items' => 'required|array',
             'items.*.product_id' => 'required|exists:products,id',
             'items.*.quantity' => 'required|integer|min:1',
-            'total_amount' => 'required|numeric|min:0'
+            'total_amount' => 'required|numeric|min:0',
+            'barista_name' => 'nullable|string|max:255',
         ]);
 
         $cafeId = Auth::user()->cafe_id ?? 1;
@@ -48,12 +54,13 @@ class PosController extends Controller
                 }
             }
             $namesString = implode(', ', $itemNames);
+            $baristaNote = $request->barista_name ? ' | Barista: ' . $request->barista_name : '';
 
             $transaction = Transaction::create([
                 'cafe_id' => $cafeId,
                 'user_id' => Auth::id(),
                 'tanggal' => date('Y-m-d'),
-                'keterangan' => 'Penjualan Kasir (' . count($request->items) . ' item): ' . $namesString,
+                'keterangan' => 'Penjualan Kasir (' . count($request->items) . ' item): ' . $namesString . $baristaNote,
                 'tipe' => 'debit',
                 'nominal' => $request->total_amount,
                 'cogs' => $totalCogs,

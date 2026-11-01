@@ -6,6 +6,7 @@ import {
     Store, GraduationCap, Globe, ArrowRight, Building2, BookOpen,
     Eye, EyeOff, TrendingUp, BarChart2, CheckCircle, MapPin, Activity, Smartphone, Apple, PlusSquare, Share, MoreVertical, Download
 } from 'lucide-react';
+import AccessibilityToolbar from '@/Components/AccessibilityToolbar';
 
 const Tape = ({ className }: { className?: string }) => (
     <div className={`absolute h-8 w-24 bg-white/40 backdrop-blur-md border border-white/50 shadow-sm z-10 ${className}`}></div>
@@ -1121,6 +1122,8 @@ export default function Welcome({ topTalents, stats, evidences, kelasFromDB, sch
                     <p className="font-bold text-sm">&copy; 2026 Mandala Pure Love. Hak Cipta Dilindungi.</p>
                 </div>
             </footer>
+
+            <AccessibilityToolbar />
         </div>
     );
 }

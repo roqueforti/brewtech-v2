@@ -26,6 +26,7 @@ import {
     Activity
 } from 'lucide-react';
 import { useLanguage } from '@/LanguageContext';
+import AccessibilityToolbar from '@/Components/AccessibilityToolbar';
 
 export default function Authenticated({ user, header, children }: any) {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -291,6 +292,7 @@ export default function Authenticated({ user, header, children }: any) {
                 </main>
 
                 <FlashAlerts />
+                <AccessibilityToolbar />
             </div>
         </div>
     );

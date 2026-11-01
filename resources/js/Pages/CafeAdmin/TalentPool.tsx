@@ -1,20 +1,37 @@
 import React, { useState, useMemo } from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
-import { Users, Award, ExternalLink, CheckCircle, Search } from 'lucide-react';
+import { Users, Award, ExternalLink, CheckCircle, Search, X, MessageSquare, Sparkles, Building2, BookOpen } from 'lucide-react';
 
 export default function TalentPool({ auth, talents }: any) {
     const [searchQuery, setSearchQuery] = useState('');
+    const [selectedTalent, setSelectedTalent] = useState<any | null>(null);
 
     const filteredTalents = useMemo(() => {
         if (!searchQuery) return talents;
         const q = searchQuery.toLowerCase();
-        return talents.filter((t: any) => t.name.toLowerCase().includes(q));
+        return talents.filter((t: any) => t.name.toLowerCase().includes(q) || t.school.toLowerCase().includes(q) || t.disability_type.toLowerCase().includes(q));
     }, [talents, searchQuery]);
+
+    const getAccommodationTip = (disabilityType: string) => {
+        const type = (disabilityType || '').toLowerCase();
+        if (type.includes('netra')) {
+            return 'Sediakan penanda raba (tactile) pada tombol mesin espresso/grinder dan gunakan wadah ukur bertakar suara atau takaran standar konsisten.';
+        } else if (type.includes('rungu')) {
+            return 'Gunakan kartu visual resep bergambar warna, serta komunikasi tertulis atau bahasa isyarat dasar pada meja peracikan.';
+        } else if (type.includes('intelektual')) {
+            return 'Berikan instruksi satu per satu secara berurutan dan terapkan sistem checklist langkah seduh yang visual dan terstruktur.';
+        } else if (type.includes('fisik')) {
+            return 'Pastikan ketinggian meja bar kopi ergonomis dan jalur lalu lintas bar lapang tanpa halangan mobilitas.';
+        } else if (type.includes('autisme')) {
+            return 'Ciptakan lingkungan bar dengan ritme terprediksi, minimalkan kebisingan blender mendadak, dan berikan arahan tugas yang jelas.';
+        }
+        return 'Sediakan bimbingan ramah dan pengenalan alur kerja meja bar secara bertahap bersama barista pendamping.';
+    };
 
     return (
         <AuthenticatedLayout user={auth.user}>
-            <Head title="Bursa Kerja SLB" />
+            <Head title="Bursa Kerja Vokasi SLB" />
 
             <div className="py-8 max-w-7xl mx-auto space-y-8">
                 {/* Header Profile */}
@@ -23,12 +40,15 @@ export default function TalentPool({ auth, talents }: any) {
                     <div className="absolute bottom-0 left-0 w-64 h-64 bg-black/5 rounded-full -ml-32 -mb-32 pointer-events-none"></div>
                     
                     <div className="relative z-10 flex-1">
+                        <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/10 rounded-full text-xs font-bold uppercase tracking-wider mb-3">
+                            <Sparkles size={14} className="text-yellow-300" /> Hilirisasi Industri & Talenta
+                        </div>
                         <h2 className="text-4xl font-bold tracking-tight mb-4 leading-tight">
-                            Bursa Talenta Inklusif
+                            Bursa Talenta Barista Inklusif
                         </h2>
                         <p className="text-emerald-50 font-medium max-w-2xl text-lg leading-relaxed opacity-90">
-                            Temukan barista terbaik lulusan SLB yang telah melalui pelatihan 
-                            modul terstandarisasi dan siap berkontribusi di industri kafe.
+                            Temukan talenta barista disabilitas terbaik binaan SLB yang telah melalui kurikulum 
+                            berbasis kompetensi, teruji melalui SPK, dan siap berkontribusi di industri kafe.
                         </p>
                     </div>
                     <div className="bg-white/10 p-8 rounded-2xl backdrop-blur-md border border-white/20 relative z-10 shrink-0 shadow-2xl">
@@ -40,16 +60,16 @@ export default function TalentPool({ auth, talents }: any) {
                 <div>
                     <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
                         <h3 className="text-xs font-bold text-slate-400 uppercase tracking-[0.2em] flex items-center gap-2">
-                            <Award className="text-orange-400" size={14} /> Berdasarkan Skor Tertinggi
+                            <Award className="text-orange-400" size={14} /> Berdasarkan Skor Tertinggi SPK
                         </h3>
                         <div className="w-full md:w-auto bg-white border border-slate-100 rounded-xl px-4 py-2.5 flex items-center gap-3 text-sm text-slate-400 font-bold shadow-sm focus-within:border-emerald-500/30 transition-all">
                             <Search size={16} className="text-slate-300" />
                             <input 
                                 type="text" 
-                                placeholder="Cari talenta..." 
+                                placeholder="Cari nama, sekolah, disabilitas..." 
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                className="bg-transparent border-none p-0 focus:ring-0 text-slate-600 text-xs w-full md:w-48 placeholder:text-slate-300 placeholder:font-medium" 
+                                className="bg-transparent border-none p-0 focus:ring-0 text-slate-600 text-xs w-full md:w-56 placeholder:text-slate-300 placeholder:font-medium" 
                             />
                         </div>
                     </div>
@@ -100,20 +120,105 @@ export default function TalentPool({ auth, talents }: any) {
                                                 style={{width: `${talent.spk_score}%`}}
                                             ></div>
                                         </div>
-                                        <div className="flex items-center gap-2.5 text-[10px] font-bold text-slate-500 leading-relaxed italic">
-                                            <CheckCircle size={14} className={talent.ready_for_pkl ? "text-emerald-500" : "text-slate-300"} />
-                                            {talent.recommendation}
+                                        <div className="flex items-center gap-2.5 text-[10px] font-bold text-slate-500 leading-relaxed">
+                                            <CheckCircle size={14} className={talent.ready_for_pkl ? "text-emerald-500 shrink-0" : "text-slate-300 shrink-0"} />
+                                            <span>{talent.recommendation}</span>
                                         </div>
                                     </div>
 
-                                    <button className="w-full bg-slate-900 hover:bg-emerald-600 text-white py-3.5 rounded-xl font-bold uppercase tracking-widest text-[10px] transition-all flex items-center justify-center gap-2 shadow-lg shadow-slate-900/10 hover:shadow-emerald-500/20 active:scale-[0.98]">
-                                        Unduh Profil Lengkap <ExternalLink size={14} />
+                                    <button 
+                                        onClick={() => setSelectedTalent(talent)}
+                                        className="w-full bg-slate-900 hover:bg-emerald-600 text-white py-3.5 rounded-xl font-bold uppercase tracking-widest text-[10px] transition-all flex items-center justify-center gap-2 shadow-lg shadow-slate-900/10 hover:shadow-emerald-500/20 active:scale-[0.98]"
+                                    >
+                                        Lihat Profil & Akomodasi <ExternalLink size={14} />
                                     </button>
                                 </div>
                             ))
                         )}
                     </div>
                 </div>
+
+                {/* MODAL DETAIL TALENTA & AKOMODASI */}
+                {selectedTalent && (
+                    <div className="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in duration-200">
+                        <div className="bg-white rounded-3xl max-w-2xl w-full p-8 md:p-10 shadow-2xl border border-slate-100 relative max-h-[90vh] overflow-y-auto">
+                            {/* Close Button */}
+                            <button 
+                                onClick={() => setSelectedTalent(null)}
+                                className="absolute top-6 right-6 p-2 rounded-full text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors"
+                            >
+                                <X size={20} />
+                            </button>
+
+                            {/* Header Talenta */}
+                            <div className="flex items-center gap-5 pb-6 border-b border-slate-100">
+                                <div className="w-16 h-16 bg-emerald-500 text-white rounded-2xl flex items-center justify-center font-bold text-2xl shadow-lg shadow-emerald-500/20">
+                                    {selectedTalent.name.substring(0, 2)}
+                                </div>
+                                <div>
+                                    <h3 className="text-2xl font-bold text-slate-900">{selectedTalent.name}</h3>
+                                    <p className="text-xs font-bold text-emerald-600 uppercase tracking-wider flex items-center gap-2 mt-1">
+                                        <Building2 size={14} /> {selectedTalent.school} &bull; {selectedTalent.disability_type}
+                                    </p>
+                                </div>
+                            </div>
+
+                            {/* Nilai Hard & Soft Skill */}
+                            <div className="grid grid-cols-3 gap-4 my-6">
+                                <div className="bg-slate-50 p-4 rounded-xl text-center border border-slate-100">
+                                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Skor SPK</span>
+                                    <span className="text-2xl font-black text-slate-900">{selectedTalent.spk_score}%</span>
+                                </div>
+                                <div className="bg-slate-50 p-4 rounded-xl text-center border border-slate-100">
+                                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Hard Skill</span>
+                                    <span className="text-2xl font-black text-blue-600">{selectedTalent.hard_skill_score ?? 85}</span>
+                                </div>
+                                <div className="bg-slate-50 p-4 rounded-xl text-center border border-slate-100">
+                                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Soft Skill</span>
+                                    <span className="text-2xl font-black text-purple-600">{selectedTalent.soft_skill_score ?? 90}</span>
+                                </div>
+                            </div>
+
+                            {/* Modul & Status */}
+                            <div className="space-y-4 mb-6">
+                                <div className="bg-emerald-50 border border-emerald-100 rounded-xl p-4 flex items-center gap-3">
+                                    <CheckCircle size={22} className="text-emerald-600 shrink-0" />
+                                    <div>
+                                        <p className="text-xs font-bold text-emerald-900">Rekomendasi Penempatan:</p>
+                                        <p className="text-sm font-semibold text-emerald-700">{selectedTalent.recommendation}</p>
+                                    </div>
+                                </div>
+
+                                <div className="border border-slate-100 rounded-xl p-5 bg-slate-50/50">
+                                    <h4 className="text-xs font-bold uppercase tracking-wider text-slate-600 mb-2 flex items-center gap-1.5">
+                                        💡 Tips Akomodasi Inklusif di Kafe Mitra:
+                                    </h4>
+                                    <p className="text-xs text-slate-600 leading-relaxed">
+                                        {getAccommodationTip(selectedTalent.disability_type)}
+                                    </p>
+                                </div>
+                            </div>
+
+                            {/* Action Buttons */}
+                            <div className="flex flex-col sm:flex-row gap-3 pt-4 border-t border-slate-100">
+                                <a 
+                                    href={`https://wa.me/${(selectedTalent.school_phone || '08123456789').replace(/[^0-9]/g, '')}?text=${encodeURIComponent(`Halo ${selectedTalent.school}, kami dari Mitra Kafe tertarik untuk mengundang ananda ${selectedTalent.name} dalam program magang barista inklusif melalui platform BREWTECH.`)}`}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white py-3.5 px-6 rounded-xl font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-emerald-600/20 transition-all"
+                                >
+                                    <MessageSquare size={16} /> Hubungi Sekolah via WhatsApp
+                                </a>
+                                <button 
+                                    onClick={() => setSelectedTalent(null)}
+                                    className="px-6 py-3.5 rounded-xl border border-slate-200 text-slate-600 font-bold text-xs uppercase tracking-wider hover:bg-slate-50 transition-colors"
+                                >
+                                    Tutup
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
 
             </div>
         </AuthenticatedLayout>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from '@inertiajs/react';
 import { Coffee, Home, ArrowLeft, LogOut } from 'lucide-react';
+import AccessibilityToolbar from '@/Components/AccessibilityToolbar';
 
 export default function StudentLayout({ children, user }: any) {
     return (
@@ -55,6 +56,8 @@ export default function StudentLayout({ children, user }: any) {
                     <span className="font-bold text-sm">Kembali</span>
                 </button>
             </footer>
+
+            <AccessibilityToolbar />
         </div>
     );
 }
