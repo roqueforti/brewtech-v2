@@ -219,38 +219,55 @@ def generate_public_narrative_pdf():
 </head>
 <body>
 
-    <div class="tagline-pill">PUBLIC NARRATIVE PRODUCT CASE STUDY &bull; INCLUSIVE TECH &bull; FULL STACK SAAS</div>
-    
-    <h1 class="doc-title">BREWTECH: Menjembatani Secangkir Kopi, Talenta Istimewa, dan Martabat Vokasi Disabilitas</h1>
-    <div class="doc-subtitle">Sebuah Perjalanan Transformasi dari Belas Kasihan Menuju Kompetensi Berdaya Saing Tinggi Melalui Rekayasa Perangkat Lunak dan Matematika Keputusan</div>
+    <!-- ========================================== -->
+    <!-- HALAMAN 1: COVER PAGE RESMI EKSEKUTIF -->
+    <!-- ========================================== -->
+    <div style="text-align: center; padding-top: 15px; page-break-after: always;">
+        <div class="tagline-pill" style="margin-bottom: 14px;">PUBLIC NARRATIVE PRODUCT CASE STUDY &bull; INCLUSIVE TECH &bull; FULL STACK SAAS</div>
+        
+        <h1 class="doc-title" style="font-size: 26pt; margin-bottom: 6px;">BREWTECH</h1>
+        <div style="font-size: 15pt; font-weight: 800; color: #0284c7; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px;">INCLUSIVE VOCATION PLATFORM</div>
+        <div class="doc-subtitle" style="font-size: 11pt; max-width: 90%; margin: 0 auto 16px auto;">Menjembatani Secangkir Kopi, Talenta Istimewa, dan Martabat Vokasi Disabilitas Melalui Rekayasa Perangkat Lunak dan Matematika Keputusan</div>
 
-    <div class="quote-box">
+        <div style="margin: 16px 0;">
+            <img src="{img_landing_hero}" alt="Brewtech Landing Hero" style="max-width: 94%; border-radius: 12px; border: 1px solid #cbd5e1; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);">
+        </div>
+
+        <table class="meta-table" style="margin-top: 16px; font-size: 8.5pt;">
+            <tr>
+                <td class="lbl" style="width: 28%;">Jenis Dokumen</td>
+                <td class="val"><strong>Laporan Studi Kasus Produk & Portofolio Rekayasa Sistem</strong></td>
+            </tr>
+            <tr>
+                <td class="lbl">Peran Pengembang</td>
+                <td class="val"><strong>Lead Full-Stack Engineer, Decision Systems Architect & Inclusive UX Designer</strong></td>
+            </tr>
+            <tr>
+                <td class="lbl">Teknologi Inti</td>
+                <td class="val">Laravel 10 Serverless, React 18, Inertia.js, Supabase PostgreSQL, Recharts, MCDM Engine</td>
+            </tr>
+            <tr>
+                <td class="lbl">Skala & Dampak</td>
+                <td class="val"><strong>65 Siswa Binaan, 11 SLB Percontohan, 11 Mitra Industri Kafe di 10 Kota Besar</strong></td>
+            </tr>
+            <tr>
+                <td class="lbl">Alamat Produksi</td>
+                <td class="val"><a href="https://brewtech-v2.vercel.app">https://brewtech-v2.vercel.app</a> (Live Remote Cloud Deployment)</td>
+            </tr>
+            <tr>
+                <td class="lbl">Edisi & Tanggal</td>
+                <td class="val">November 2026 &bull; Edisi Portofolio Resmi</td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- HALAMAN 2: EXECUTIVE SUMMARY & STORY -->
+    <!-- ========================================== -->
+    <div class="quote-box" style="margin-top: 10px;">
         "Kemandirian seorang individu tidak lahir dari belas kasihan masyarakat, melainkan dari panggung kesempatan yang setara untuk membuktikan nilai karya mereka."
         <span class="quote-author">— Refleksi Perancangan Sistem Brewtech</span>
     </div>
-
-    <table class="meta-table">
-        <tr>
-            <td class="lbl">Peran Pengembang</td>
-            <td class="val"><strong>Lead Full-Stack Engineer, Decision Systems Architect & Inclusive UX Designer</strong></td>
-        </tr>
-        <tr>
-            <td class="lbl">Teknologi Inti</td>
-            <td class="val">Laravel 10 Serverless, React 18, Inertia.js, Supabase PostgreSQL, Recharts, MCDM Engine</td>
-        </tr>
-        <tr>
-            <td class="lbl">Skala & Dampak</td>
-            <td class="val"><strong>65 Siswa Binaan, 11 SLB Percontohan, 11 Mitra Industri Kafe di 10 Kota Besar</strong></td>
-        </tr>
-        <tr>
-            <td class="lbl">Tautan Produksi</td>
-            <td class="val"><a href="https://brewtech-v2.vercel.app">https://brewtech-v2.vercel.app</a> (Live Remote Cloud Deployment)</td>
-        </tr>
-        <tr>
-            <td class="lbl">Repositori GitHub</td>
-            <td class="val"><a href="https://github.com/roqueforti/brewtech-v2">github.com/roqueforti/brewtech-v2</a> (Production Ready)</td>
-        </tr>
-    </table>
 
     <h2 class="section-header">I. The Story of Self: Panggilan di Balik Aroma Biji Kopi</h2>
     <p>
@@ -549,18 +566,32 @@ def generate_overview_pdf(driver):
 </style>
 </head>
 <body>
-    <div class="tagline">INCLUSIVE VOCATIONAL EDUCATION & COMMERCIAL ECOSYSTEM</div>
-    <h1 class="title">PANDUAN & OVERVIEW SISTEM<br>APLIKASI BREWTECH</h1>
-    <div class="subtitle">Platform SaaS Pendidikan Vokasi Disabilitas Terintegrasi, Penilaian SPK Kesiapan Kerja, Kasir POS Kafe Mitra, dan Portal Pemantauan Multi-Peran</div>
+    <!-- ========================================== -->
+    <!-- HALAMAN 1: COVER PAGE PANDUAN SISTEM -->
+    <!-- ========================================== -->
+    <div style="text-align: center; padding-top: 25px; page-break-after: always;">
+        <div class="tagline" style="margin-bottom: 14px;">INCLUSIVE VOCATIONAL EDUCATION & COMMERCIAL ECOSYSTEM</div>
+        <h1 class="title" style="font-size: 26pt; margin-bottom: 4px;">PANDUAN & OVERVIEW SISTEM<br><span style="color: #0284c7;">APLIKASI BREWTECH v2.0</span></h1>
+        <div class="subtitle" style="font-size: 11pt; max-width: 90%; margin: 0 auto 16px auto;">Platform SaaS Pendidikan Vokasi Disabilitas Terintegrasi, Penilaian SPK Kesiapan Kerja, Kasir POS Kafe Mitra, dan Portal Pemantauan Multi-Peran</div>
 
-    <table class="meta-box">
-        <tr><td class="lbl">Versi Sistem</td><td>v2.0 Production (Serverless + PostgreSQL)</td></tr>
-        <tr><td class="lbl">Lingkungan Cloud</td><td>Vercel Edge Cloud & Supabase PostgreSQL (AWS eu-west-2)</td></tr>
-        <tr><td class="lbl">Tautan Sistem</td><td><strong>https://brewtech-v2.vercel.app</strong></td></tr>
-        <tr><td class="lbl">Fokus Ekosistem</td><td>Hilirisasi Vokasi Disabilitas: SLB &rarr; Pelatihan Barista &rarr; Penilaian SPK &rarr; Kasir POS Kafe Mitra</td></tr>
-    </table>
+        <div style="margin: 16px 0;">
+            <img src="{img_landing_hero}" alt="Hero" style="max-width: 94%; border-radius: 12px; border: 1px solid #cbd5e1; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);">
+        </div>
 
-    <h2>BAB I: PENDAHULUAN & ARSITEKTUR SISTEM</h2>
+        <table class="meta-box" style="margin-top: 18px; font-size: 8.5pt;">
+            <tr><td class="lbl" style="width: 28%;">Nama Platform</td><td><strong>BREWTECH (The Cup We Share)</strong></td></tr>
+            <tr><td class="lbl">Versi Sistem</td><td>v2.0 Production (Serverless + PostgreSQL)</td></tr>
+            <tr><td class="lbl">Lingkungan Cloud</td><td>Vercel Edge Cloud & Supabase PostgreSQL (AWS eu-west-2)</td></tr>
+            <tr><td class="lbl">Alamat Produksi Live</td><td><strong style="color: #0284c7;">https://brewtech-v2.vercel.app</strong></td></tr>
+            <tr><td class="lbl">Fokus Ekosistem</td><td>Hilirisasi Vokasi Disabilitas: SLB &rarr; Pelatihan Barista &rarr; Penilaian SPK &rarr; Kasir POS Kafe Mitra</td></tr>
+            <tr><td class="lbl">Tanggal Terbit</td><td>November 2026 &bull; Dokumentasi Resmi</td></tr>
+        </table>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- HALAMAN 2: BAB I & SETERUSNYA -->
+    <!-- ========================================== -->
+    <h2 style="margin-top: 10px;">BAB I: PENDAHULUAN & ARSITEKTUR SISTEM</h2>
     <p>BREWTECH adalah platform perangkat lunak berbasis layanan (SaaS) yang dirancang secara khusus untuk mengatasi kesenjangan antara dunia pendidikan khusus (Sekolah Luar Biasa / SLB) dan industri kerja komersial (Food & Beverage / Kafe). Melalui pendekatan vokasi terintegrasi, Brewtech memberdayakan siswa penyandang disabilitas agar memperoleh keterampilan profesional sebagai barista dan tenaga kerja kafe mandiri.</p>
 
     <h3>Empat Pilar Utama Ekosistem Brewtech</h3>

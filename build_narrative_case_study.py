@@ -198,55 +198,92 @@ def create_document():
     # DOCUMENT CONTENT
     # -------------------------------------------------------------
 
+    # =============================================================
+    # HALAMAN 1: COVER PAGE (HALAMAN SAMPUL RESMI EKSEKUTIF)
+    # =============================================================
+    p_cov_sp = doc.add_paragraph()
+    p_cov_sp.paragraph_format.space_before = Pt(36)
+
     # Category Pill
     p_meta = doc.add_paragraph()
-    r_meta = p_meta.add_run("PUBLIC NARRATIVE PRODUCT CASE STUDY &bull; INCLUSIVE TECH &bull; FULL STACK SAAS")
+    p_meta.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    r_meta = p_meta.add_run("PUBLIC NARRATIVE PRODUCT CASE STUDY • INCLUSIVE TECH • FULL STACK SAAS")
     r_meta.bold = True
     r_meta.font.name = "Montserrat"
-    r_meta.font.size = Pt(9)
+    r_meta.font.size = Pt(9.5)
     r_meta.font.color.rgb = C_PRIMARY
 
     # Main Title & Subtitle
-    add_title("BREWTECH: Menjembatani Secangkir Kopi, Talenta Istimewa, dan Martabat Vokasi Disabilitas")
-    add_subtitle("Sebuah Perjalanan Transformasi dari Belas Kasihan Menuju Kompetensi Berdaya Saing Tinggi Melalui Rekayasa Perangkat Lunak dan Matematika Keputusan")
+    p_title = doc.add_paragraph()
+    p_title.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p_title.paragraph_format.space_before = Pt(12)
+    p_title.paragraph_format.space_after = Pt(6)
+    r_title = p_title.add_run("BREWTECH\nINCLUSIVE VOCATION PLATFORM")
+    r_title.bold = True
+    r_title.font.name = "Montserrat"
+    r_title.font.size = Pt(26)
+    r_title.font.color.rgb = C_DARK
 
-    add_quote(
-        "Kemandirian seorang individu tidak lahir dari belas kasihan masyarakat, melainkan dari panggung kesempatan yang setara untuk membuktikan nilai karya mereka.",
-        "Refleksi Perancangan Sistem Brewtech"
-    )
+    p_sub = doc.add_paragraph()
+    p_sub.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p_sub.paragraph_format.space_after = Pt(18)
+    r_sub = p_sub.add_run("Menjembatani Secangkir Kopi, Talenta Istimewa, dan Martabat Vokasi Disabilitas Melalui Rekayasa Perangkat Lunak dan Matematika Keputusan")
+    r_sub.font.name = "Montserrat"
+    r_sub.font.size = Pt(11)
+    r_sub.italic = True
+    r_sub.font.color.rgb = C_SLATE
+
+    # Featured Hero Screenshot on Cover
+    img_cover_path = os.path.join(SCREENSHOTS_DIR, "01_landing_hero.png")
+    if os.path.exists(img_cover_path):
+        p_cov_img = doc.add_paragraph()
+        p_cov_img.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        p_cov_img.paragraph_format.space_before = Pt(4)
+        p_cov_img.paragraph_format.space_after = Pt(20)
+        run_img = p_cov_img.add_run()
+        run_img.add_picture(img_cover_path, width=Inches(5.5))
 
     # Meta Table (Role, Tech, Timeline, Live URL)
-    t_info = doc.add_table(rows=4, cols=2)
+    t_info = doc.add_table(rows=5, cols=2)
     t_info.alignment = WD_TABLE_ALIGNMENT.CENTER
     meta_rows = [
-        ("Peran Pengembang", "Full-Stack Engineer, Decision Systems Architect & Inclusive UX Designer"),
-        ("Teknologi Inti", "Laravel 10 Serverless, React 18, Inertia.js, Supabase PostgreSQL, Recharts, MCDM Engine"),
-        ("Dampak Nyata", "65 Siswa Terdaftar, 11 SLB Percontohan, 11 Mitra Industri Kafe di 10 Kota Besar"),
+        ("Jenis Dokumen", "Laporan Studi Kasus Produk & Portofolio Rekayasa Sistem"),
+        ("Peran Pengembang", "Lead Full-Stack Engineer, Decision Systems Architect & Inclusive UX"),
+        ("Teknologi Inti", "Laravel 10 Serverless, React 18, Inertia.js, Supabase PostgreSQL, MCDM Engine"),
+        ("Dampak Nyata", "65 Siswa Binaan, 11 SLB Percontohan, 11 Mitra Industri Kafe di 10 Kota"),
         ("Tautan Produksi", "https://brewtech-v2.vercel.app (Live Remote Deployment)")
     ]
     for i, (k, v) in enumerate(meta_rows):
         c0, c1 = t_info.rows[i].cells
-        c0.width = Inches(2.0)
-        c1.width = Inches(4.5)
+        c0.width = Inches(2.1)
+        c1.width = Inches(4.4)
         set_cell_background(c0, "F1F5F9")
         set_cell_background(c1, "FFFFFF")
-        set_cell_margins(c0, top=60, bottom=60, left=80, right=80)
-        set_cell_margins(c1, top=60, bottom=60, left=80, right=80)
+        set_cell_margins(c0, top=50, bottom=50, left=90, right=90)
+        set_cell_margins(c1, top=50, bottom=50, left=90, right=90)
         p0 = c0.paragraphs[0]
         r0 = p0.add_run(k)
         r0.bold = True
-        r0.font.size = Pt(9)
+        r0.font.size = Pt(8.5)
         r0.font.name = "Montserrat"
         p1 = c1.paragraphs[0]
         r1 = p1.add_run(v)
-        r1.font.size = Pt(9)
+        r1.font.size = Pt(8.5)
         r1.font.name = "Montserrat"
         if "http" in v:
             r1.bold = True
             r1.font.color.rgb = C_PRIMARY
 
-    p_sp = doc.add_paragraph()
-    p_sp.paragraph_format.space_after = Pt(12)
+    # HARD PAGE BREAK TO ENSURE CLEAN COVER PAGE!
+    doc.add_page_break()
+
+    # -------------------------------------------------------------
+    # HALAMAN 2: EXECUTIVE QUOTE & INTRO
+    # -------------------------------------------------------------
+    add_quote(
+        "Kemandirian seorang individu tidak lahir dari belas kasihan masyarakat, melainkan dari panggung kesempatan yang setara untuk membuktikan nilai karya mereka.",
+        "Refleksi Perancangan Sistem Brewtech"
+    )
 
     # -------------------------------------------------------------
     # CHAPTER 1: THE STORY OF SELF
