@@ -120,7 +120,10 @@ export default function Welcome({ topTalents, stats, evidences, kelasFromDB, sch
     // MENGGUNAKAN ROUTE LOGIN BARU
     const handleGeneralLogin = (e: React.FormEvent) => {
         e.preventDefault();
-        post('/login', { onFinish: () => reset('password') });
+        post('/login', {
+            onSuccess: () => setIsLoginModalOpen(false),
+            onFinish: () => reset('password'),
+        });
     };
 
     const openModal = () => {
@@ -741,6 +744,11 @@ export default function Welcome({ topTalents, stats, evidences, kelasFromDB, sch
                                         <p className="text-center text-xs text-slate-400 font-medium mt-6">
                                             Lupa password? Hubungi administrator sistem Anda.
                                         </p>
+                                        <div className="text-center mt-3">
+                                            <a href="/login" className="text-xs font-bold text-secondary hover:underline">
+                                                Atau buka Halaman Login Mandiri &rarr;
+                                            </a>
+                                        </div>
                                     </div>
                                 )}
                             </div>
