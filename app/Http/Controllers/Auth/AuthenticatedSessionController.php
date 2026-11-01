@@ -27,7 +27,7 @@ class AuthenticatedSessionController extends Controller
     /**
      * Handle an incoming authentication request.
      */
-    public function store(LoginRequest $request): RedirectResponse
+    public function store(LoginRequest $request)
     {
         $request->authenticate();
         $request->session()->regenerate();
@@ -35,16 +35,17 @@ class AuthenticatedSessionController extends Controller
         // Ambil role user yang baru saja login
         $role = $request->user()->role;
 
-        // Redirect dinamis menggunakan match (Fitur PHP 8+)
-        return match ($role) {
-            'superadmin'   => redirect()->route('superadmin.dashboard'),
-            'school_admin' => redirect()->route('school.dashboard'),
-            'instructor'   => redirect()->route('instructor.dashboard'),
-            'student'      => redirect()->route('student.dashboard'),
-            'parent'       => redirect()->route('parent.dashboard'),
-            'cafe_admin'   => redirect()->route('cafe.dashboard'),
-            default        => redirect('/'),
+        $targetUrl = match ($role) {
+            'superadmin'   => route('superadmin.dashboard'),
+            'school_admin' => route('school.dashboard'),
+            'instructor'   => route('instructor.dashboard'),
+            'student'      => route('student.dashboard'),
+            'parent'       => route('parent.dashboard'),
+            'cafe_admin'   => route('cafe.dashboard'),
+            default        => '/',
         };
+
+        return Inertia::location($targetUrl);
     }
 
     /**

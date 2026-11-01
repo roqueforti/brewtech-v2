@@ -21,7 +21,17 @@ class RedirectIfAuthenticated
 
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
-                return redirect(RouteServiceProvider::HOME);
+                $user = Auth::guard($guard)->user();
+                $target = match ($user->role ?? null) {
+                    'superadmin'   => route('superadmin.dashboard'),
+                    'school_admin' => route('school.dashboard'),
+                    'instructor'   => route('instructor.dashboard'),
+                    'student'      => route('student.dashboard'),
+                    'parent'       => route('parent.dashboard'),
+                    'cafe_admin'   => route('cafe.dashboard'),
+                    default        => '/',
+                };
+                return redirect()->to($target);
             }
         }
 

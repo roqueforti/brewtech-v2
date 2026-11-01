@@ -25,6 +25,6 @@ class StudentLoginController extends Controller
 
         Auth::login($user);
 
-        return redirect()->intended(route('student.dashboard'));
+        return \Inertia\Inertia::location(route('student.dashboard'));
     }
 }

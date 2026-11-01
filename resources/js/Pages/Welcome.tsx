@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { Head, useForm, router } from '@inertiajs/react';
+import { Head, useForm, router, usePage } from '@inertiajs/react';
 import { 
     Coffee, Maximize, Minimize, Users, Award, 
     Image as ImageIcon, ChevronRight, X, UserCircle, KeyRound, Lock,
@@ -36,6 +36,7 @@ interface Props {
 }
 
 export default function Welcome({ topTalents, stats, evidences, kelasFromDB, schools, cafes = [], performanceData, landingAssets }: Props) {
+    const { auth } = usePage<any>().props;
     const [scrolled, setScrolled] = useState(false);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [isFullscreen, setIsFullscreen] = useState(false);
@@ -191,12 +192,27 @@ export default function Welcome({ topTalents, stats, evidences, kelasFromDB, sch
 
                     {/* CTA + Hamburger */}
                     <div className="flex items-center gap-3">
-                        <button 
-                            onClick={openModal}
-                            className="bg-secondary text-white px-5 py-2.5 rounded-xl font-semibold text-sm transition-all hover:bg-secondary/90 flex items-center gap-2 shadow-sm"
-                        >
-                            <Lock size={14} /> Masuk Portal
-                        </button>
+                        {auth?.user ? (
+                            <a
+                                href={
+                                    auth.user.role === 'superadmin' ? '/superadmin/dashboard' :
+                                    auth.user.role === 'school_admin' ? '/school/dashboard' :
+                                    auth.user.role === 'instructor' ? '/instructor/dashboard' :
+                                    auth.user.role === 'cafe_admin' ? '/cafe/dashboard' :
+                                    auth.user.role === 'parent' ? '/parent/dashboard' : '/play/dashboard'
+                                }
+                                className="bg-emerald-600 text-white px-5 py-2.5 rounded-xl font-bold text-sm transition-all hover:bg-emerald-500 flex items-center gap-2 shadow-sm"
+                            >
+                                <Lock size={14} /> Buka Dashboard ({auth.user.name.split(' ')[0]})
+                            </a>
+                        ) : (
+                            <button 
+                                onClick={openModal}
+                                className="bg-secondary text-white px-5 py-2.5 rounded-xl font-semibold text-sm transition-all hover:bg-secondary/90 flex items-center gap-2 shadow-sm"
+                            >
+                                <Lock size={14} /> Masuk Portal
+                            </button>
+                        )}
                         {/* Hamburger (mobile only) */}
                         <button
                             className={`lg:hidden p-2 rounded-xl transition-colors ${scrolled ? 'text-slate-700 hover:bg-slate-100' : 'text-white hover:bg-white/20'}`}
