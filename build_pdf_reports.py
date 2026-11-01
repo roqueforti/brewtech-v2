@@ -46,13 +46,14 @@ def generate_public_narrative_pdf():
 <meta charset="utf-8">
 <title>BREWTECH - Public Narrative Product Case Study</title>
 <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&display=swap');
     @page {{
         size: A4;
         margin: 18mm 20mm;
     }}
     body {{
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-        font-size: 9.5pt;
+        font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        font-size: 9pt;
         line-height: 1.6;
         color: #334155;
         background: #ffffff;
@@ -455,9 +456,14 @@ def generate_public_narrative_pdf():
     try:
         print("[2] Opening HTML in headless Chrome...")
         driver.get(f"file:///{temp_html_path.replace(os.sep, '/')}")
-        time.sleep(2)
+        time.sleep(3)
+        try:
+            driver.execute_script("return document.fonts.ready")
+        except Exception:
+            pass
+        time.sleep(1)
 
-        print("[3] Printing to PDF via Chrome DevTools Protocol...")
+        print("[3] Printing to PDF via Chrome DevTools Protocol (Montserrat)...")
         pdf_data = driver.execute_cdp_cmd('Page.printToPDF', {
             'printBackground': True,
             'preferCSSPageSize': True,
@@ -510,10 +516,11 @@ def generate_overview_pdf(driver):
 <meta charset="utf-8">
 <title>Panduan & Overview Sistem Aplikasi BREWTECH v2.0</title>
 <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&display=swap');
     @page {{ size: A4; margin: 18mm 20mm; }}
     body {{
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-        font-size: 9.5pt; line-height: 1.55; color: #334155; margin: 0; padding: 0;
+        font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        font-size: 9pt; line-height: 1.55; color: #334155; margin: 0; padding: 0;
     }}
     .tagline {{
         display: inline-block; padding: 4px 12px; background: #e0f2fe; color: #0284c7;
@@ -629,9 +636,14 @@ def generate_overview_pdf(driver):
 
     print("[Overview 1] Opening HTML in headless Chrome...")
     driver.get(f"file:///{temp_overview_path.replace(os.sep, '/')}")
-    time.sleep(2)
+    time.sleep(3)
+    try:
+        driver.execute_script("return document.fonts.ready")
+    except Exception:
+        pass
+    time.sleep(1)
 
-    print("[Overview 2] Printing to PDF via CDP...")
+    print("[Overview 2] Printing to PDF via CDP (Montserrat)...")
     pdf_data = driver.execute_cdp_cmd('Page.printToPDF', {
         'printBackground': True,
         'preferCSSPageSize': True,

@@ -47,7 +47,7 @@ def add_header(title, level=1):
         p.paragraph_format.space_before = Pt(22)
         p.paragraph_format.space_after = Pt(6)
         r = p.add_run(title)
-        r.font.name = "Calibri"
+        r.font.name = "Montserrat"
         r.font.size = Pt(17)
         r.bold = True
         r.font.color.rgb = C_NAVY
@@ -55,7 +55,7 @@ def add_header(title, level=1):
         p.paragraph_format.space_before = Pt(16)
         p.paragraph_format.space_after = Pt(4)
         r = p.add_run(title)
-        r.font.name = "Calibri"
+        r.font.name = "Montserrat"
         r.font.size = Pt(13.5)
         r.bold = True
         r.font.color.rgb = C_PRIMARY
@@ -63,7 +63,7 @@ def add_header(title, level=1):
         p.paragraph_format.space_before = Pt(12)
         p.paragraph_format.space_after = Pt(3)
         r = p.add_run(title)
-        r.font.name = "Calibri"
+        r.font.name = "Montserrat"
         r.font.size = Pt(11.5)
         r.bold = True
         r.font.color.rgb = C_DARK
@@ -77,11 +77,11 @@ def add_body(text, bold_prefix="", space_after=6):
     if bold_prefix:
         r_pre = p.add_run(bold_prefix)
         r_pre.bold = True
-        r_pre.font.name = "Calibri"
+        r_pre.font.name = "Montserrat"
         r_pre.font.size = Pt(10.5)
         r_pre.font.color.rgb = C_DARK
     r_body = p.add_run(text)
-    r_body.font.name = "Calibri"
+    r_body.font.name = "Montserrat"
     r_body.font.size = Pt(10.5)
     r_body.font.color.rgb = C_DARK
     return p
@@ -93,11 +93,11 @@ def add_bullet(bold_prefix, text):
     p.paragraph_format.line_spacing = 1.15
     r_pre = p.add_run(bold_prefix)
     r_pre.bold = True
-    r_pre.font.name = "Calibri"
+    r_pre.font.name = "Montserrat"
     r_pre.font.size = Pt(10)
     r_pre.font.color.rgb = C_DARK
     r_txt = p.add_run(text)
-    r_txt.font.name = "Calibri"
+    r_txt.font.name = "Montserrat"
     r_txt.font.size = Pt(10)
     r_txt.font.color.rgb = C_DARK
     return p
@@ -128,12 +128,12 @@ def add_callout(text, title="CATATAN PENTING"):
     p.paragraph_format.space_after = Pt(2)
     run_t = p.add_run(f"📌 {title}: ")
     run_t.bold = True
-    run_t.font.name = "Calibri"
+    run_t.font.name = "Montserrat"
     run_t.font.size = Pt(10)
     run_t.font.color.rgb = C_PRIMARY
     
     run_body = p.add_run(text)
-    run_body.font.name = "Calibri"
+    run_body.font.name = "Montserrat"
     run_body.font.size = Pt(9.5)
     run_body.font.color.rgb = C_DARK
     
@@ -158,7 +158,7 @@ def add_screenshot(filename, caption):
     p_cap.paragraph_format.space_after = Pt(12)
     r_cap = p_cap.add_run(f"Tangkapan Layar: {caption}")
     r_cap.italic = True
-    r_cap.font.name = "Calibri"
+    r_cap.font.name = "Montserrat"
     r_cap.font.size = Pt(9)
     r_cap.font.color.rgb = C_MUTED
 
@@ -172,7 +172,7 @@ p_cov_sp.paragraph_format.space_before = Pt(40)
 p_pill = doc.add_paragraph()
 p_pill.alignment = WD_ALIGN_PARAGRAPH.CENTER
 r_pill = p_pill.add_run("INCLUSIVE VOCATIONAL EDUCATION & COMMERCIAL ECOSYSTEM")
-r_pill.font.name = "Calibri"
+r_pill.font.name = "Montserrat"
 r_pill.font.size = Pt(10)
 r_pill.bold = True
 r_pill.font.color.rgb = C_PRIMARY
@@ -183,7 +183,7 @@ p_title.alignment = WD_ALIGN_PARAGRAPH.CENTER
 p_title.paragraph_format.space_before = Pt(10)
 p_title.paragraph_format.space_after = Pt(8)
 r_title = p_title.add_run("PANDUAN & OVERVIEW SISTEM\nAPLIKASI BREWTECH")
-r_title.font.name = "Calibri"
+r_title.font.name = "Montserrat"
 r_title.font.size = Pt(26)
 r_title.bold = True
 r_title.font.color.rgb = C_NAVY
@@ -193,7 +193,7 @@ p_sub = doc.add_paragraph()
 p_sub.alignment = WD_ALIGN_PARAGRAPH.CENTER
 p_sub.paragraph_format.space_after = Pt(30)
 r_sub = p_sub.add_run("Platform SaaS Pendidikan Vokasi Disabilitas Terintegrasi, Penilaian SPK Kesiapan Kerja, Kasir POS Kafe Mitra, dan Portal Pemantauan Multi-Peran")
-r_sub.font.name = "Calibri"
+r_sub.font.name = "Montserrat"
 r_sub.font.size = Pt(12)
 r_sub.font.color.rgb = C_MUTED
 
@@ -227,7 +227,7 @@ for idx, (label, val) in enumerate(meta_data):
     p_l.paragraph_format.space_after = Pt(2)
     r_l = p_l.add_run(label)
     r_l.bold = True
-    r_l.font.name = "Calibri"
+    r_l.font.name = "Montserrat"
     r_l.font.size = Pt(10)
     r_l.font.color.rgb = C_DARK
     
@@ -235,7 +235,7 @@ for idx, (label, val) in enumerate(meta_data):
     p_v.paragraph_format.space_before = Pt(2)
     p_v.paragraph_format.space_after = Pt(2)
     r_v = p_v.add_run(val)
-    r_v.font.name = "Calibri"
+    r_v.font.name = "Montserrat"
     r_v.font.size = Pt(10)
     r_v.font.color.rgb = C_NAVY if "http" not in val else C_PRIMARY
     if "http" in val:
@@ -297,7 +297,7 @@ for i, h in enumerate(headers):
     p = cell.paragraphs[0]
     r = p.add_run(h)
     r.bold = True
-    r.font.name = "Calibri"
+    r.font.name = "Montserrat"
     r.font.size = Pt(9.5)
     r.font.color.rgb = RGBColor(255, 255, 255)
 
@@ -323,7 +323,7 @@ for row_idx, r_data in enumerate(roles_data, start=1):
         p.paragraph_format.space_after = Pt(1)
         p.paragraph_format.line_spacing = 1.1
         r = p.add_run(r_data[col_idx])
-        r.font.name = "Calibri"
+        r.font.name = "Montserrat"
         r.font.size = Pt(8.5)
         if col_idx == 0:
             r.bold = True

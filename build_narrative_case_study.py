@@ -58,7 +58,7 @@ def create_document():
         p.paragraph_format.space_after = Pt(4)
         run = p.add_run(text)
         run.bold = True
-        run.font.name = "Calibri"
+        run.font.name = "Montserrat"
         run.font.size = Pt(28)
         run.font.color.rgb = C_DARK
         return p
@@ -69,7 +69,7 @@ def create_document():
         p.paragraph_format.space_after = Pt(20)
         run = p.add_run(text)
         run.italic = True
-        run.font.name = "Calibri"
+        run.font.name = "Montserrat"
         run.font.size = Pt(13)
         run.font.color.rgb = C_PRIMARY
         return p
@@ -81,7 +81,7 @@ def create_document():
         p.paragraph_format.keep_with_next = True
         run = p.add_run(text)
         run.bold = True
-        run.font.name = "Calibri"
+        run.font.name = "Montserrat"
         run.font.size = Pt(17)
         run.font.color.rgb = C_DARK
         return p
@@ -93,7 +93,7 @@ def create_document():
         p.paragraph_format.keep_with_next = True
         run = p.add_run(text)
         run.bold = True
-        run.font.name = "Calibri"
+        run.font.name = "Montserrat"
         run.font.size = Pt(13)
         run.font.color.rgb = C_ACCENT
         return p
@@ -106,11 +106,11 @@ def create_document():
         if bold_prefix:
             r_bold = p.add_run(bold_prefix)
             r_bold.bold = True
-            r_bold.font.name = "Calibri"
+            r_bold.font.name = "Montserrat"
             r_bold.font.size = Pt(10.5)
             r_bold.font.color.rgb = C_DARK
         run = p.add_run(text)
-        run.font.name = "Calibri"
+        run.font.name = "Montserrat"
         run.font.size = Pt(10.5)
         run.font.color.rgb = C_SLATE
         return p
@@ -130,7 +130,7 @@ def create_document():
         r = p.add_run(f'"{quote_text}"')
         r.italic = True
         r.bold = True
-        r.font.name = "Calibri"
+        r.font.name = "Montserrat"
         r.font.size = Pt(11)
         r.font.color.rgb = C_DARK
 
@@ -139,7 +139,7 @@ def create_document():
             p2.paragraph_format.space_before = Pt(4)
             p2.paragraph_format.space_after = Pt(0)
             r2 = p2.add_run(f'— {author}')
-            r2.font.name = "Calibri"
+            r2.font.name = "Montserrat"
             r2.font.size = Pt(9.5)
             r2.font.color.rgb = C_MUTED
         
@@ -165,7 +165,7 @@ def create_document():
         p_cap.paragraph_format.space_after = Pt(14)
         r_cap = p_cap.add_run(f"Gambar: {caption}")
         r_cap.italic = True
-        r_cap.font.name = "Calibri"
+        r_cap.font.name = "Montserrat"
         r_cap.font.size = Pt(8.5)
         r_cap.font.color.rgb = C_MUTED
 
@@ -182,12 +182,12 @@ def create_document():
         p.paragraph_format.space_after = Pt(2)
         r_title = p.add_run(f"💡 {title}\n")
         r_title.bold = True
-        r_title.font.name = "Calibri"
+        r_title.font.name = "Montserrat"
         r_title.font.size = Pt(10.5)
         r_title.font.color.rgb = C_DARK
 
         r_text = p.add_run(text)
-        r_text.font.name = "Calibri"
+        r_text.font.name = "Montserrat"
         r_text.font.size = Pt(9.5)
         r_text.font.color.rgb = C_SLATE
 
@@ -202,7 +202,7 @@ def create_document():
     p_meta = doc.add_paragraph()
     r_meta = p_meta.add_run("PUBLIC NARRATIVE PRODUCT CASE STUDY &bull; INCLUSIVE TECH &bull; FULL STACK SAAS")
     r_meta.bold = True
-    r_meta.font.name = "Calibri"
+    r_meta.font.name = "Montserrat"
     r_meta.font.size = Pt(9)
     r_meta.font.color.rgb = C_PRIMARY
 
@@ -236,11 +236,11 @@ def create_document():
         r0 = p0.add_run(k)
         r0.bold = True
         r0.font.size = Pt(9)
-        r0.font.name = "Calibri"
+        r0.font.name = "Montserrat"
         p1 = c1.paragraphs[0]
         r1 = p1.add_run(v)
         r1.font.size = Pt(9)
-        r1.font.name = "Calibri"
+        r1.font.name = "Montserrat"
         if "http" in v:
             r1.bold = True
             r1.font.color.rgb = C_PRIMARY
@@ -566,3 +566,4 @@ Kini, sistem ini siap direplikasi ke ratusan SLB dan jejaring kafe lainnya di se
 if __name__ == "__main__":
     create_document()
     create_markdown()
+
