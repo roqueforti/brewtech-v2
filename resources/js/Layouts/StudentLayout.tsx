@@ -78,30 +78,42 @@ export default function StudentLayout({ children, user }: any) {
             </nav>
 
             {/* Main Content Area */}
-            <main className="flex-grow p-4 md:p-8 max-w-5xl mx-auto w-full pb-36 relative z-10">
+            <main className="flex-grow p-4 md:p-8 max-w-5xl mx-auto w-full pb-44 relative z-10">
                 {children}
             </main>
 
             {/* Bottom Floating Navigation Bar */}
-            <footer className="fixed bottom-5 left-1/2 -translate-x-1/2 w-[92%] max-w-md bg-white/95 backdrop-blur-xl border-2 border-emerald-100 p-2 rounded-3xl shadow-2xl z-50 flex gap-2">
+            <footer className="fixed bottom-5 left-1/2 -translate-x-1/2 w-[94%] max-w-lg bg-white/95 backdrop-blur-xl border-2 border-emerald-100 p-2 rounded-3xl shadow-2xl z-50 flex gap-2">
                 <Link
                     href={route('student.dashboard')}
-                    className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-2xl font-black text-xs uppercase tracking-wider transition-all ${
+                    className={`flex-1 flex items-center justify-center gap-1.5 py-3 rounded-2xl font-black text-xs uppercase tracking-wider transition-all ${
                         route().current('student.dashboard')
                             ? 'bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-lg shadow-emerald-500/25 scale-102'
                             : 'bg-slate-50 text-slate-600 hover:bg-slate-100 border border-slate-200/80'
                     }`}
                 >
-                    <span className="text-lg">🗺️</span>
-                    <span>Peta Petualangan</span>
+                    <span className="text-base">🗺️</span>
+                    <span>Peta Dino</span>
+                </Link>
+
+                <Link
+                    href={route('student.report.index')}
+                    className={`flex-1 flex items-center justify-center gap-1.5 py-3 rounded-2xl font-black text-xs uppercase tracking-wider transition-all ${
+                        route().current('student.report.index')
+                            ? 'bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-lg shadow-emerald-500/25 scale-102'
+                            : 'bg-slate-50 text-slate-600 hover:bg-slate-100 border border-slate-200/80'
+                    }`}
+                >
+                    <span className="text-base">🎖️</span>
+                    <span>Rapor Dino</span>
                 </Link>
 
                 <button
                     onClick={() => window.history.back()}
-                    className="flex-1 flex items-center justify-center gap-2 py-3 bg-white text-slate-600 hover:bg-slate-50 rounded-2xl font-black text-xs uppercase tracking-wider transition-all border border-slate-200 shadow-sm active:scale-95"
+                    className="px-4 py-3 bg-white text-slate-600 hover:bg-slate-50 rounded-2xl font-black text-xs uppercase tracking-wider transition-all border border-slate-200 shadow-sm active:scale-95 flex items-center justify-center gap-1.5"
                 >
                     <ArrowLeft size={16} strokeWidth={3} />
-                    <span>Kembali</span>
+                    <span className="hidden sm:inline">Kembali</span>
                 </button>
             </footer>
 

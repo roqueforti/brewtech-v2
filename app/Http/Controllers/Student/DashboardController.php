@@ -19,8 +19,17 @@ class DashboardController extends Controller
         $totalXp = 50; // Base beginner XP
         $dinoBeans = 30; // Base beginner dino beans
 
-        if ($student->studentClass) {
+        $classModules = collect();
+        if ($student->studentClass && $student->studentClass->modules()->exists()) {
             $classModules = $student->studentClass->modules;
+        }
+
+        // Fallback ke seluruh modul sistem agar murid selalu dapat berpetualang di peta dino
+        if ($classModules->isEmpty()) {
+            $classModules = \App\Models\Module::with('materials')->orderBy('id')->get();
+        }
+
+        if ($classModules->isNotEmpty()) {
 
             // Stages on the Dino Map
             $dinoStages = [

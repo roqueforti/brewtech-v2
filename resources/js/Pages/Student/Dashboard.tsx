@@ -350,6 +350,14 @@ export default function StudentDashboard({
                             );
                         })}
                     </div>
+
+                    {modules.length === 0 && (
+                        <div className="text-center py-12 bg-emerald-50/60 rounded-3xl border-2 border-emerald-100 p-8 space-y-4">
+                            <div className="text-5xl">🌴🦖</div>
+                            <h4 className="text-lg font-black text-slate-800">Menyiapkan Modul Kopi Purba...</h4>
+                            <p className="text-xs text-slate-500 font-medium">Guru sedang menyiapkan kurikulum seduhan terbaik untuk kelasmu!</p>
+                        </div>
+                    )}
                 </div>
 
                 {/* 4. DINO BADGE COLLECTION (KOLEKSI LENCANA TELUR PURBA) */}
