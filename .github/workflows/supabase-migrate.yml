@@ -1,0 +1,86 @@
+name: Supabase Database Migration CI/CD
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      seed:
+        description: 'Jalankan seeder database juga?'
+        required: false
+        type: boolean
+        default: false
+
+concurrency:
+  group: supabase-migration
+  cancel-in-progress: false
+
+jobs:
+  migrate:
+    name: Run Migrations on Supabase
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: mbstring, pdo, pdo_pgsql, pgsql, gd, zip, intl, bcmath, xml, curl
+          coverage: none
+          tools: composer:v2
+
+      - name: Cache Composer Dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.composer/cache/files
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install Dependencies
+        run: composer install --prefer-dist --no-interaction --no-progress --no-dev --optimize-autoloader
+
+      - name: Verify Database Secrets
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DB_HOST: ${{ secrets.DB_HOST }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        run: |
+          if [ -z "$DATABASE_URL" ] && ([ -z "$DB_HOST" ] || [ -z "$DB_PASSWORD" ]); then
+            echo "::error::Kredensial database Supabase belum diatur di GitHub Secrets! Tambahkan DATABASE_URL atau (DB_HOST, DB_USERNAME, DB_PASSWORD) di GitHub Repo -> Settings -> Secrets and variables -> Actions."
+            exit 1
+          fi
+
+      - name: Run Database Migrations
+        env:
+          APP_ENV: production
+          APP_KEY: ${{ secrets.APP_KEY || 'base64:3l29ejXvMiZZCotFhaDisj450kCnHRIU/C/wXjkK69E=' }}
+          DB_CONNECTION: pgsql
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DB_HOST: ${{ secrets.DB_HOST }}
+          DB_PORT: ${{ secrets.DB_PORT || '6543' }}
+          DB_DATABASE: ${{ secrets.DB_DATABASE || 'postgres' }}
+          DB_USERNAME: ${{ secrets.DB_USERNAME }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          DB_SSLMODE: ${{ secrets.DB_SSLMODE || 'require' }}
+        run: |
+          php artisan migrate --force
+
+      - name: Run Database Seeder (if requested)
+        if: ${{ inputs.seed == true }}
+        env:
+          APP_ENV: production
+          APP_KEY: ${{ secrets.APP_KEY || 'base64:3l29ejXvMiZZCotFhaDisj450kCnHRIU/C/wXjkK69E=' }}
+          DB_CONNECTION: pgsql
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DB_HOST: ${{ secrets.DB_HOST }}
+          DB_PORT: ${{ secrets.DB_PORT || '6543' }}
+          DB_DATABASE: ${{ secrets.DB_DATABASE || 'postgres' }}
+          DB_USERNAME: ${{ secrets.DB_USERNAME }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          DB_SSLMODE: ${{ secrets.DB_SSLMODE || 'require' }}
+        run: |
+          php artisan db:seed --force
